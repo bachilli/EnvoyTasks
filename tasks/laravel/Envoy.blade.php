@@ -6,6 +6,13 @@
     $branch = 'master';
 @endsetup
 
+@story('deploy')
+    git
+    composer
+    symlinks
+    permissions
+@endstory
+
 @task('git')
     echo "Efetuando deploy de aplicação Laravel para o domínio {{ $domain }}"
     cd {{ $home }}/{{ $domain }}/releases
