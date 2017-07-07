@@ -1,6 +1,19 @@
 @servers(['localhost' => ['localhost']])
 
+@setup
+    $home = '/home/bachilli/www';
+@endsetup
+
 @task('create-ssl-vhost')
+    echo "Criando diretório"
+    mkdir {{ $home }}/{{ $domain }}
+    mkdir {{ $home }}/{{ $domain }}/storage
+    mkdir {{ $home }}/{{ $domain }}/releases
+
+    echo "Alterando permissões"
+    chgrp -R www-data {{ $home }}/{{ $domain }}
+    chmod -R ug+rwx {{ $home }}/{{ $domain }}/storage
+
     echo "Criando arquivo de configuração para o domínio {{ $domain }}"
     sudo cp ssl-vhost /etc/nginx/sites-available/{{ $domain }}
     sudo sed -i -e 's/DOMAIN.COM/{{ $domain }}/g' /etc/nginx/sites-available/{{ $domain }}

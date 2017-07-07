@@ -27,12 +27,12 @@
     rm {{ $home }}/{{ $domain }}/current
     ln -s {{ $home }}/{{ $domain }}/releases/{{ $release }} {{ $home }}/{{ $domain }}/current
     rm -rf {{ $home }}/{{ $domain }}/releases/{{ $release }}/storage
-    sudo ln -s {{ $home }}/{{ $domain }}/storage {{ $home }}/{{ $domain }}/releases/{{ $release }}/storage
-    sudo ln -s {{ $home }}/{{ $domain }}/.env {{ $home }}/{{ $domain }}/releases/{{ $release }}/.env
+    ln -s {{ $home }}/{{ $domain }}/storage {{ $home }}/{{ $domain }}/releases/{{ $release }}/storage
+    ln -s {{ $home }}/{{ $domain }}/.env {{ $home }}/{{ $domain }}/releases/{{ $release }}/.env
 @endtask
 
 @task('permissions')
     echo "Alterando permissões"
-    sudo chown www-data:www-data {{ $home }}/{{ $domain }}/releases/{{ $release }} -R
-    sudo chmod -R ug+rwx {{ $home }}/{{ $domain }}/releases/{{ $release }}/bootstrap/cache
+    chgrp -R www-data {{ $home }}/{{ $domain }}/releases/{{ $release }}
+    chmod -R ug+rwx {{ $home }}/{{ $domain }}/releases/{{ $release }}/bootstrap/cache
 @endtask
