@@ -31,6 +31,12 @@
     ln -s {{ $home }}/{{ $domain }}/.env {{ $home }}/{{ $domain }}/releases/{{ $release }}/.env
 @endtask
 
+@task('laravel')
+    cd {{ $home }}/{{ $domain }}/current
+    php artisan storage:link
+    php artisan cache:clear
+@endtask
+
 @task('permissions')
     echo "Alterando permissões"
     chgrp -R www-data {{ $home }}/{{ $domain }}/releases/{{ $release }}
