@@ -2,7 +2,7 @@
 
 @setup
     $release = date('Ymdhis');
-    $home = '/home/bachilli';
+    $home = '/home/bachilli/www';
     $branch = 'master';
 @endsetup
 
@@ -15,8 +15,7 @@
 
 @task('git')
     echo "Efetuando deploy de aplicação Laravel para o domínio {{ $domain }}"
-    cd {{ $home }}/{{ $domain }}/releases
-    git clone {{ $gitUrl }} {{ $release }} --branch={{ $branch }}
+    git clone {{ $gitUrl }} {{ $home }}/{{ $domain }}/releases/{{ $release }} --branch={{ $branch }}
 @endtask
 
 @task('composer')
@@ -25,9 +24,10 @@
 @endtask
 
 @task('symlinks')
+    rm {{ $home }}/{{ $domain }}/current
     ln -s {{ $home }}/{{ $domain }}/releases/{{ $release }} {{ $home }}/{{ $domain }}/current
     rm -rf {{ $home }}/{{ $domain }}/releases/{{ $release }}/storage
-    sudo ln -s {{ $home }}/{{ $domain }}/storage {{ $home }}/{{ $domain }}/releases/storage
+    sudo ln -s {{ $home }}/{{ $domain }}/storage {{ $home }}/{{ $domain }}/releases/{{ $release }}/storage
     sudo ln -s {{ $home }}/{{ $domain }}/.env {{ $home }}/{{ $domain }}/releases/{{ $release }}/.env
 @endtask
 
